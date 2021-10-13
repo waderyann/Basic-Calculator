@@ -18,6 +18,10 @@ public class basicCalculator {
 	String firstanswer;
 	String secondanswer;
 	boolean sum = false;
+	boolean subtract = false;
+	boolean divide = false;
+	boolean multiply = false;
+	int amountplus = 0;
 	String answer_Symbol = "";
 	private JLabel extendanswer_lbl;
 
@@ -57,13 +61,27 @@ public class basicCalculator {
 		JButton equals_Btn = new JButton("=");
 		equals_Btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (sum == true)
-				{
+				if (sum == true){
 					secondanswer = answer;
 					
-					answer = Integer.toString(Integer.parseInt(firstanswer) + Integer.parseInt(secondanswer));
+					answer = Float.toString(Float.parseFloat(firstanswer) + Float.parseFloat(secondanswer));
 					answer_Field.setText(answer);
-					
+					sum = false;
+				}if (subtract == true) {
+					secondanswer = answer;
+					answer = Float.toString(Float.parseFloat(firstanswer) - Float.parseFloat(secondanswer));
+					answer_Field.setText(answer);
+					subtract = false;
+				}if (multiply == true) {
+					secondanswer = answer;
+					answer = Float.toString(Float.parseFloat(firstanswer) * Float.parseFloat(secondanswer));
+					answer_Field.setText(answer);
+					multiply = false;
+				}if (divide == true) {
+					secondanswer = answer;
+					answer = Float.toString(Float.parseFloat(firstanswer) / Float.parseFloat(secondanswer));
+					answer_Field.setText(answer);
+					divide = false;
 				}
 			}
 		});
@@ -79,8 +97,22 @@ public class basicCalculator {
 				firstanswer = answer;
 				answer = "";
 				//answer_Field.setText("");
-				sum = true;
+				if ((sum == true)&&(amountplus > 0))
+				{
+				secondanswer = answer_Field.getText();
+				System.out.println(secondanswer);
 				
+				answer += Integer.toString(Integer.parseInt(firstanswer) + Integer.parseInt(secondanswer));
+				answer_Field.setText(answer);
+				//answer = "";
+				sum = false;
+				}
+				//sum = false;
+				if (amountplus ==0)
+				{
+					sum = true;
+					amountplus++;
+				}
 				
 				
 			}
@@ -89,16 +121,36 @@ public class basicCalculator {
 		frame.getContentPane().add(plus_Btn);
 		
 		JButton minus_Btn = new JButton("-");
+		minus_Btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				firstanswer = answer;
+				answer = "";
+				
+				subtract = true;
+			}
+		});
 		minus_Btn.setBounds(301, 356, 60, 40);
 		frame.getContentPane().add(minus_Btn);
 		
 		JButton multiply_Btn = new JButton("x");
+		multiply_Btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				firstanswer = answer;
+				answer = "";
+				
+				multiply = true;
+			}
+		});
 		multiply_Btn.setBounds(301, 305, 60, 40);
 		frame.getContentPane().add(multiply_Btn);
 		
 		JButton division_Btn = new JButton("\u00F7");
 		division_Btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				firstanswer = answer;
+				answer = "";
+				
+				divide = true;
 				
 			}
 		});
@@ -106,6 +158,18 @@ public class basicCalculator {
 		frame.getContentPane().add(division_Btn);
 		
 		JButton plusminus_Btn = new JButton("+ / -");
+		plusminus_Btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (Integer.parseInt(answer) > 0)
+				{
+					answer = "-" + answer;
+				}else{
+					answer = Integer.toString(Math.abs(Integer.parseInt(answer)));
+
+				}
+				answer_Field.setText(answer);
+			}
+		});
 		plusminus_Btn.setBounds(231, 458, 60, 40);
 		frame.getContentPane().add(plusminus_Btn);
 		
@@ -145,14 +209,11 @@ public class basicCalculator {
 		JButton decimal_Btn = new JButton(".");
 		decimal_Btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (Double.parseDouble(answer) % 1 == 0){
+					answer += ".";
+					answer_Field.setText(answer);
+				}
 				
-				
-				/*for (int i = 0; i < answer.length(); i++)
-				{
-					if ((answer.valueOf(i) == "i")) answer += ".";
-				}*/
-				answer += ".";
-				answer_Field.setText(answer);
 			}
 		});
 		decimal_Btn.setBounds(161, 458, 60, 40);
@@ -237,6 +298,12 @@ public class basicCalculator {
 		frame.getContentPane().add(seven_Btn);
 		
 		JButton modulus_Btn = new JButton("Mod");
+		modulus_Btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//answer =
+				//answer_Field.setText(answer);
+			}
+		});
 		modulus_Btn.setBounds(301, 203, 60, 40);
 		frame.getContentPane().add(modulus_Btn);
 		
@@ -288,6 +355,11 @@ public class basicCalculator {
 		frame.getContentPane().add(clear_Btn);
 		
 		JButton ln_Btn = new JButton("ln");
+		ln_Btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				answer = Double.toString(Math.log1p(Double.parseDouble(answer)));
+			}
+		});
 		ln_Btn.setBounds(21, 458, 60, 40);
 		frame.getContentPane().add(ln_Btn);
 		
@@ -296,6 +368,11 @@ public class basicCalculator {
 		frame.getContentPane().add(second_Btn);
 		
 		JButton log_Btn = new JButton("log");
+		log_Btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				answer = Double.toString(Math.log(Double.parseDouble(answer)));
+			}
+		});
 		log_Btn.setBounds(21, 409, 60, 40);
 		frame.getContentPane().add(log_Btn);
 		
